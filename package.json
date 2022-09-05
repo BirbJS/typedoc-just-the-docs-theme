@@ -1,32 +1,28 @@
 {
-  "name": "typedoc-just-the-docs-theme",
-  "version": "0.0.1",
-  "author": "Luiz Estácio",
+  "name": "@birbjs/typedoc-just-the-docs-theme",
+  "version": "0.0.8",
   "description": "An extension of the default theme from typedoc-plugin-markdown to create a compatible just-the-docs markdown.",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "exports": "./dist/index.js",
+  "private": false,
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "package.json"
   ],
-  "homepage": "https://github.com/luizstacio/typedoc-just-the-docs-theme#readme",
+  "homepage": "https://github.com/BirbJS/typedoc-just-the-docs-theme#readme",
   "bugs": {
-    "url": "https://github.com/luizstacio/typedoc-just-the-docs-theme/issues"
+    "url": "https://github.com/BirbJS/typedoc-just-the-docs-theme/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luizstacio/typedoc-just-the-docs-theme.git"
+    "url": "git+https://github.com/BirbJS/typedoc-just-the-docs-theme.git"
   },
   "scripts": {
-    "build": "tsc",
+    "push": "tsc && npm publish --access public",
     "prettier-format": "prettier --write src"
   },
-  "keywords": [
-    "typedoc",
-    "typedoc-theme",
-    "just-the-docs",
-    "jekyll"
-  ],
   "peerDependencies": {
     "typedoc": ">=0.22.9",
     "typedoc-plugin-markdown": ">=3.11.10"

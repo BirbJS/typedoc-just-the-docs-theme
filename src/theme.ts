@@ -16,7 +16,7 @@ const NavOrder = {
   [ReflectionKind.Class]: 1,
   [ReflectionKind.Interface]: 2,
   [ReflectionKind.Namespace]: 3,
-  [ReflectionKind.Enum]: 4
+  [ReflectionKind.Enum]: 4,
 }
 
 const normalizeName = (name: string) => {
@@ -34,7 +34,7 @@ export class JustTheDocsTheme extends MarkdownTheme {
 
     let finalPath;
     if (!namaSpace.length) {
-      finalPath = path.join(moduleFolderName, `index.md`);
+      finalPath = `${moduleFolderName}.md`;
     } else {
       finalPath = `${path.join(moduleFolderName, FolderMapping[reflection.kind], namaSpace.join('-'))}.md`;
     }
@@ -46,30 +46,66 @@ export class JustTheDocsTheme extends MarkdownTheme {
     const pageMarkdown = super.render(page);
     const [packageName, ...namaSpace] = page.model.getFullName()?.split('.');
 
-    // Add YAML front matter 
     let header: string;
+    let parent: string;
+    const type = NavOrder[page.model.kind];
+
+    switch (type) {
+        case 1: {
+            parent = 'Classes';
+            break;
+        }
+        case 2: {
+            parent = 'Interfaces';
+            break;
+        }
+        case 3: {
+            parent = 'Namespaces';
+            break;
+        }
+        case 4: {
+            parent = 'Enums';
+            break;
+        }
+        default: {
+            parent = 'Modules';
+            break;
+        }
+    }
+
     if (!namaSpace.length) {
       header = [
         `---`,
         `layout: default`,
-        `title: "${packageName}"`,
-        `has_children: true`,
+        `title: ${page.model.name}`,
+        `parent: ${parent}`,
+        `grand_parent: Reference`,
         `has_toc: false`,
         `nav_order: 1`,
         `---`,
       ].join('\n');
+    } if (parent === 'Modules') {
+        header = [
+            `---`,
+            `layout: default`,
+            `title: Modules`,
+            `parent: Reference`,
+            `has_toc: false`,
+            `nav_order: 5`,
+            `---`,
+        ].join('\n');
     } else {
       header = [
         `---`,
         `layout: default`,
-        `title: ${page.model.name}`,
-        `parent: "${packageName}"`,
-        `nav_order: ${NavOrder[page.model.kind]}`,
-        ``,
+        `title: Modules`,
+        `parent: Reference`,
+        `has_toc: false`,
+        `nav_order: 5`,
         `---`,
       ].join('\n');
     }
 
-    return `${header}\n\n${pageMarkdown}`;
+    return `${header}\n\n${pageMarkdown.replace('[birb](README.md) / [Exports](modules.md)', '[Birb](/)')}`;
   }
 }
