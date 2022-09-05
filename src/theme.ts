@@ -6,17 +6,22 @@ const FolderMapping = {
   [ReflectionKind.Module]: 'modules',
   [ReflectionKind.Namespace] : 'namespaces',
   [ReflectionKind.Enum]: 'enums',
+  [ReflectionKind.TypeAlias]: 'enums',
+  [ReflectionKind.TypeLiteral]: 'enums',
+  [ReflectionKind.TypeParameter]: 'enums',
   [ReflectionKind.Class]: 'classes',
   [ReflectionKind.Interface]: 'interfaces'
 }
 
-// Todo: make it a theme configuration
 const NavOrder = {
-  [ReflectionKind.Module]: 1,
-  [ReflectionKind.Class]: 1,
-  [ReflectionKind.Interface]: 2,
-  [ReflectionKind.Namespace]: 3,
-  [ReflectionKind.Enum]: 4,
+  [ReflectionKind.Module]: 2,
+  [ReflectionKind.Class]: 2,
+  [ReflectionKind.Interface]: 3,
+  [ReflectionKind.Namespace]: 4,
+  [ReflectionKind.Enum]: 5,
+  [ReflectionKind.TypeAlias]: 5,
+  [ReflectionKind.TypeLiteral]: 5,
+  [ReflectionKind.TypeParameter]: 5,
 }
 
 const normalizeName = (name: string) => {
@@ -51,25 +56,26 @@ export class JustTheDocsTheme extends MarkdownTheme {
     const type = NavOrder[page.model.kind];
 
     switch (type) {
-        case 1: {
+        case 2: {
             parent = 'Classes';
             break;
         }
-        case 2: {
+        case 3: {
             parent = 'Interfaces';
             break;
         }
-        case 3: {
+        case 4: {
             parent = 'Namespaces';
             break;
         }
-        case 4: {
+        case 5: {
             parent = 'Enums';
             break;
         }
     }
 
-    if (!namaSpace.length && parent) {
+    console.log(`> ${packageName} - ${page.model.name} - ${parent} - ${page.model.kind}`);
+    if (!namaSpace.length && parent !== undefined) {
       header = [
         `---`,
         `layout: default`,
@@ -80,21 +86,21 @@ export class JustTheDocsTheme extends MarkdownTheme {
         `nav_order: 1`,
         `---`,
       ].join('\n');
-    } if (!namaSpace.length && !parent) {
+    } else if (!namaSpace.length && parent === undefined) {
         header = [
             `---`,
             `layout: default`,
-            `title: Modules`,
+            `title: ${page.model.name ?? 'Modules'}`,
             `parent: Reference`,
             `has_toc: false`,
-            `nav_order: 5`,
+            `nav_order: 1`,
             `---`,
         ].join('\n');
     } else {
       header = [
         `---`,
         `layout: default`,
-        `title: Modules`,
+        `title: Misclaneous`,
         `parent: Reference`,
         `has_toc: false`,
         `nav_order: 5`,

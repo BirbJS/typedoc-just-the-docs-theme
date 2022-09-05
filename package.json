@@ -1,6 +1,6 @@
 {
   "name": "@birbjs/typedoc-just-the-docs-theme",
-  "version": "0.0.9",
+  "version": "0.0.12",
   "description": "An extension of the default theme from typedoc-plugin-markdown to create a compatible just-the-docs markdown.",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
