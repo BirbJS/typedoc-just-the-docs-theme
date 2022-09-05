@@ -67,13 +67,9 @@ export class JustTheDocsTheme extends MarkdownTheme {
             parent = 'Enums';
             break;
         }
-        default: {
-            parent = 'Modules';
-            break;
-        }
     }
 
-    if (!namaSpace.length) {
+    if (!namaSpace.length && parent) {
       header = [
         `---`,
         `layout: default`,
@@ -84,7 +80,7 @@ export class JustTheDocsTheme extends MarkdownTheme {
         `nav_order: 1`,
         `---`,
       ].join('\n');
-    } if (parent === 'Modules') {
+    } if (!namaSpace.length && !parent) {
         header = [
             `---`,
             `layout: default`,
